@@ -26,6 +26,48 @@
         <h1 class="greeting">Hi! Abhik</h1>
         <p class="date" id="current-date">Thu, Jun 11</p>
       </div>
+
+      <div class="panel system-panel">
+        <div class="sys-header">
+          <span>SYS_HEALTH // CORE</span>
+          <i class="ph ph-cpu"></i>
+        </div>
+        
+        <div class="sys-metrics">
+          <div class="metric-row">
+            <span class="metric-label">CPU_CORES</span>
+            <span class="metric-value" id="sys-cpu">--</span>
+          </div>
+          <div class="metric-bar-container">
+            <div class="metric-bar" id="cpu-bar" style="width: 0%"></div>
+          </div>
+
+          <div class="metric-row">
+            <span class="metric-label">MEMORY</span>
+            <span class="metric-value" id="sys-mem">-- GB</span>
+          </div>
+          <div class="metric-bar-container">
+            <div class="metric-bar" id="mem-bar" style="width: 0%"></div>
+          </div>
+
+          <div class="metric-row">
+            <span class="metric-label">NETWORK</span>
+            <span class="metric-value" id="sys-net">--</span>
+          </div>
+          
+          <div class="metric-row">
+            <span class="metric-label">POWER</span>
+            <span class="metric-value" id="sys-batt">--%</span>
+          </div>
+          <div class="metric-bar-container">
+            <div class="metric-bar" id="batt-bar" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <div class="sys-chart" id="sys-chart">
+          <!-- JS dynamic bars -->
+        </div>
+      </div>
     </div>
 
     <div class="right-panel">
