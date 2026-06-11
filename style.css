@@ -1,0 +1,460 @@
+:root {
+  --bg-color: #020617; /* Deeper black/blue for high contrast */
+  --panel-bg: rgba(8, 15, 30, 0.6);
+  --panel-border: rgba(0, 240, 255, 0.3);
+  --accent-cyan: #00f0ff;
+  --accent-blue: #0088ff;
+  --accent-orange: #ff3300;
+  --text-primary: #e2f1ff;
+  --text-secondary: #648dae;
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  font-family: var(--font-heading);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  /* Scanline effect base grid */
+  background-image: 
+    linear-gradient(to right, rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* Moving scanline across the screen for J.A.R.V.I.S. vibe */
+body::after {
+  content: '';
+  position: absolute;
+  top: -100%; left: 0; right: 0;
+  height: 200%;
+  background: linear-gradient(to bottom, transparent, rgba(0, 240, 255, 0.05) 50%, rgba(0, 240, 255, 0.2) 50%, transparent 51%);
+  background-size: 100% 10px;
+  animation: scanline 8s linear infinite;
+  pointer-events: none;
+  z-index: 999;
+}
+
+@keyframes scanline {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(50%); }
+}
+
+.container {
+  display: flex;
+  gap: 4rem;
+  max-width: 1200px;
+  width: 90%;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  z-index: 10;
+}
+
+/* J.A.R.V.I.S. Panel Styles with Mouse Tracking */
+.panel {
+  background: var(--panel-bg);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--panel-border);
+  padding: 2rem;
+  clip-path: polygon(0 15px, 15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%);
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, border-color 0.3s ease;
+  overflow: hidden;
+}
+
+/* Dynamic Glow Effect tied to JS */
+.panel::before {
+  content: '';
+  position: absolute;
+  top: var(--mouse-y, 50%);
+  left: var(--mouse-x, 50%);
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(0, 240, 255, 0.15) 0%, transparent 60%);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.panel:hover::before {
+  opacity: 1;
+}
+
+.panel:hover {
+  transform: translateY(-5px) scale(1.02);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 30px rgba(0, 240, 255, 0.15), inset 0 0 20px rgba(0, 240, 255, 0.05);
+}
+
+/* Tech Corner Accents */
+.panel::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 30px; height: 30px;
+  border-top: 3px solid var(--accent-cyan);
+  border-left: 3px solid var(--accent-cyan);
+  pointer-events: none;
+  box-shadow: -5px -5px 15px rgba(0,240,255,0.4);
+}
+
+.left-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+/* Enhanced Robotic HUD Clock (Arc Reactor style) */
+.hud-clock-container {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clock-ring {
+  position: absolute;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.clock-ring.outer {
+  width: 100%;
+  height: 100%;
+  border: 3px solid transparent;
+  border-top-color: var(--accent-cyan);
+  border-bottom-color: var(--accent-blue);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+  animation: spin 10s linear infinite;
+}
+
+.clock-ring.middle {
+  width: 85%;
+  height: 85%;
+  border: 4px dashed rgba(0, 240, 255, 0.5);
+  animation: spin 15s linear infinite reverse;
+}
+
+.clock-ring.inner {
+  width: 70%;
+  height: 70%;
+  border: 2px solid var(--accent-orange);
+  border-left-color: transparent;
+  border-right-color: transparent;
+  animation: spin 5s ease-in-out infinite alternate;
+}
+
+.clock-core {
+  font-family: var(--font-mono);
+  font-size: 4.5rem;
+  font-weight: 700;
+  text-shadow: 0 0 25px var(--accent-cyan);
+  color: #ffffff;
+  z-index: 2;
+  letter-spacing: -3px;
+}
+
+.clock-seconds {
+  position: absolute;
+  bottom: 80px;
+  right: 50px;
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  color: var(--accent-cyan);
+  text-shadow: 0 0 10px var(--accent-cyan);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.greeting-panel {
+  text-align: center;
+  position: relative;
+}
+
+.greeting {
+  font-size: 2.5rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  color: #fff;
+  text-shadow: 0 0 15px rgba(255,255,255,0.6);
+  position: relative;
+  display: inline-block;
+}
+
+/* Typing cursor effect */
+.greeting::after {
+  content: '';
+  position: absolute;
+  right: -20px;
+  top: 10%;
+  height: 80%;
+  width: 5px;
+  background-color: var(--accent-cyan);
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink { 50% { opacity: 0; } }
+
+.date {
+  font-family: var(--font-mono);
+  color: var(--accent-cyan);
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  max-width: 550px;
+}
+
+/* Weather Panel */
+.weather-panel {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.weather-header {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  color: var(--accent-cyan);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 700;
+  border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+  padding-bottom: 0.5rem;
+}
+
+.weather-header i {
+  font-size: 2.5rem;
+  color: #fff;
+  text-shadow: 0 0 15px var(--accent-cyan);
+  animation: pulse 2s infinite alternate;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); text-shadow: 0 0 10px var(--accent-cyan); }
+  100% { transform: scale(1.1); text-shadow: 0 0 25px var(--accent-cyan); }
+}
+
+.weather-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.stat-pill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(0, 240, 255, 0.05);
+  padding: 0.75rem 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  border-left: 4px solid var(--panel-border);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.stat-pill:hover {
+  background: rgba(0, 240, 255, 0.15);
+  border-left-color: var(--accent-cyan);
+  transform: translateX(10px);
+  box-shadow: 0 5px 15px rgba(0,240,255,0.1);
+}
+
+.stat-pill.humidity {
+  border-left-color: var(--accent-blue);
+}
+
+.stat-pill.highlight {
+  border-left-color: var(--accent-cyan);
+  color: #fff;
+  text-shadow: 0 0 5px var(--accent-cyan);
+}
+
+.weather-temp {
+  text-align: right;
+  color: #fff;
+  text-shadow: 0 0 30px rgba(0, 240, 255, 0.8);
+}
+
+.temp-val {
+  font-size: 5.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.temp-unit {
+  font-size: 2.5rem;
+  vertical-align: super;
+  color: var(--accent-cyan);
+}
+
+/* Search Panel */
+.search-form {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.search-icon {
+  font-size: 2rem;
+  color: var(--accent-cyan);
+}
+
+#search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  outline: none;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+#search-input::placeholder {
+  color: rgba(100, 141, 174, 0.5);
+}
+
+button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.voice-btn i {
+  font-size: 2rem;
+}
+.voice-btn:hover {
+  color: var(--accent-orange);
+  transform: scale(1.2) rotate(5deg);
+  text-shadow: 0 0 10px var(--accent-orange);
+}
+
+.submit-btn {
+  background: rgba(0, 240, 255, 0.1);
+  color: var(--accent-cyan);
+  border: 1px solid var(--accent-cyan);
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  letter-spacing: 2px;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  position: relative;
+  overflow: hidden;
+}
+
+.submit-btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.5), transparent);
+  transition: left 0.5s ease;
+}
+
+.submit-btn:hover {
+  background: rgba(0, 240, 255, 0.25);
+  box-shadow: 0 0 20px rgba(0,240,255,0.4);
+  color: #fff;
+  text-shadow: 0 0 5px #fff;
+}
+
+.submit-btn:hover::before {
+  left: 100%;
+}
+
+/* Engine Toggles */
+.engine-panel {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.engine-label {
+  font-family: var(--font-mono);
+  color: var(--accent-cyan);
+  font-size: 1rem;
+  letter-spacing: 4px;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  text-shadow: 0 0 10px var(--accent-cyan);
+  font-weight: 700;
+}
+
+.engine-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.engine-toggle input {
+  display: none;
+}
+
+.toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(0, 240, 255, 0.15);
+  font-size: 0.95rem;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.toggle-btn:hover {
+  background: rgba(0, 240, 255, 0.1);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 240, 255, 0.2);
+  border-color: rgba(0,240,255,0.5);
+}
+
+.engine-toggle input:checked + .toggle-btn {
+  background: rgba(0, 240, 255, 0.25);
+  border-color: var(--accent-cyan);
+  color: #fff;
+  text-shadow: 0 0 8px var(--accent-cyan);
+  box-shadow: inset 0 0 15px rgba(0, 240, 255, 0.4), 0 0 20px rgba(0, 240, 255, 0.3);
+  transform: scale(1.08);
+}

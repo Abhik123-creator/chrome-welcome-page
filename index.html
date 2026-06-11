@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Tab | System Ready</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="grid-overlay"></div>
+  <div class="container">
+    
+    <div class="left-panel">
+      <div class="hud-clock-container">
+        <div class="clock-ring outer"></div>
+        <div class="clock-ring middle"></div>
+        <div class="clock-ring inner"></div>
+        <div class="clock-core" id="clock-display">00:00</div>
+        <div class="clock-seconds" id="clock-seconds">00</div>
+      </div>
+      <div class="greeting-panel">
+        <h1 class="greeting">Hi! Abhik</h1>
+        <p class="date" id="current-date">Thu, Jun 11</p>
+      </div>
+    </div>
+
+    <div class="right-panel">
+      
+      <div class="panel weather-panel">
+        <div class="weather-header">
+          <span class="weather-desc" id="weather-desc">MIST</span>
+          <i class="ph ph-cloud-fog" id="weather-icon"></i>
+        </div>
+        <div class="weather-stats">
+          <div class="stat-pill humidity">
+            <span id="weather-humidity">Humidity 94%</span>
+            <i class="ph ph-drop"></i>
+          </div>
+          <div class="stat-pill">
+            <i class="ph ph-thermometer"></i>
+            <span id="weather-feels">Feels 28.8°C</span>
+          </div>
+          <div class="stat-pill highlight">
+            <i class="ph ph-map-pin"></i>
+            <span id="weather-location">Kolkata</span>
+          </div>
+        </div>
+        <div class="weather-temp">
+          <span class="temp-val" id="weather-temp">27</span><span class="temp-unit">°C</span>
+        </div>
+      </div>
+
+      <div class="panel search-panel">
+        <form id="search-form" class="search-form">
+          <i class="ph ph-magnifying-glass search-icon"></i>
+          <input type="text" id="search-input" placeholder="Awaiting command..." autofocus autocomplete="off">
+          <button type="button" class="voice-btn" title="Voice Input (Mock)"><i class="ph ph-microphone"></i></button>
+          <button type="submit" class="submit-btn">EXECUTE</button>
+        </form>
+      </div>
+
+      <div class="panel engine-panel">
+        <div class="engine-label">TARGET</div>
+        <div class="engine-toggles">
+          <label class="engine-toggle">
+            <input type="radio" name="engine" value="google" checked>
+            <span class="toggle-btn"><i class="ph ph-google-logo"></i> Google</span>
+          </label>
+          <label class="engine-toggle">
+            <input type="radio" name="engine" value="duck">
+            <span class="toggle-btn"><i class="ph-fill ph-detective"></i> Duck</span>
+          </label>
+          <label class="engine-toggle">
+            <input type="radio" name="engine" value="bing">
+            <span class="toggle-btn"><i class="ph ph-microsoft-logo"></i> Bing</span>
+          </label>
+          <label class="engine-toggle">
+            <input type="radio" name="engine" value="brave">
+            <span class="toggle-btn"><i class="ph ph-shield-check"></i> Brave</span>
+          </label>
+          <label class="engine-toggle">
+            <input type="radio" name="engine" value="youtube">
+            <span class="toggle-btn"><i class="ph ph-youtube-logo"></i> YouTube</span>
+          </label>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <script src="./script.js"></script>
+</body>
+</html>
