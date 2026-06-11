@@ -181,3 +181,53 @@ setInterval(() => {
     }
   }
 }, 150);
+
+// Boot Sequence Animation
+const bootScreen = document.getElementById('boot-screen');
+const bootText = document.getElementById('boot-text');
+
+const bootMessages = [
+  "INITIALIZING J.A.R.V.I.S. PROTOCOL...",
+  "ESTABLISHING SECURE CONNECTION...",
+  "BYPASSING MAINFRAME...",
+  "LOADING TELEMETRY DATA...",
+  "SYSTEM ONLINE."
+];
+
+let msgIndex = 0;
+
+function showBootMessages() {
+  if (msgIndex < bootMessages.length) {
+    bootText.textContent = bootMessages[msgIndex];
+    msgIndex++;
+    // Vary the timing for a more realistic loading feel
+    setTimeout(showBootMessages, Math.random() * 400 + 300); 
+  } else {
+    setTimeout(() => {
+      bootScreen.classList.add('hidden');
+    }, 500);
+  }
+}
+
+// Start boot sequence
+window.addEventListener('load', () => {
+  showBootMessages();
+  scaleFit(); // initial scale
+});
+
+// Auto-scale to fit screen without cropping or scrolling
+function scaleFit() {
+  const container = document.querySelector('.container');
+  // Base resolution we designed for is roughly 1200 x 850
+  const scaleX = window.innerWidth / 1250;
+  const scaleY = window.innerHeight / 850;
+  
+  // Choose the smaller scale to ensure it fits both width and height.
+  // Cap at 1 so it doesn't get ridiculously huge on massive screens.
+  const scale = Math.min(scaleX, scaleY, 1);
+  
+  container.style.transform = `scale(${scale})`;
+}
+
+// Re-calculate on window resize
+window.addEventListener('resize', scaleFit);

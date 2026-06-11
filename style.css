@@ -26,6 +26,8 @@ body {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  margin: 0;
+  padding: 0;
   position: relative;
   /* Scanline effect base grid */
   background-image: 
@@ -543,4 +545,30 @@ button {
   background: rgba(0, 240, 255, 0.5);
   transition: height 0.2s ease;
   min-height: 2px;
+}
+
+/* Boot Screen Animation */
+.boot-screen {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background-color: var(--bg-color);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.boot-text {
+  font-family: var(--font-mono);
+  color: var(--accent-cyan);
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  text-shadow: 0 0 15px var(--accent-cyan);
+}
+
+.boot-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
 }
