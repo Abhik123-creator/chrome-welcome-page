@@ -116,3 +116,68 @@ document.querySelectorAll('.panel').forEach(panel => {
     panel.style.setProperty('--mouse-y', `${y}px`);
   });
 });
+
+// System Info & Health Dashboard
+const sysCpu = document.getElementById('sys-cpu');
+const cpuBar = document.getElementById('cpu-bar');
+const sysMem = document.getElementById('sys-mem');
+const memBar = document.getElementById('mem-bar');
+const sysNet = document.getElementById('sys-net');
+const sysBatt = document.getElementById('sys-batt');
+const battBar = document.getElementById('batt-bar');
+const sysChart = document.getElementById('sys-chart');
+
+// Fetch available hardware info
+if (navigator.hardwareConcurrency) {
+  const cores = navigator.hardwareConcurrency;
+  sysCpu.textContent = cores;
+  cpuBar.style.width = Math.min((cores / 16) * 100, 100) + '%';
+}
+
+if (navigator.deviceMemory) {
+  const mem = navigator.deviceMemory;
+  sysMem.textContent = mem + ' GB+';
+  memBar.style.width = Math.min((mem / 32) * 100, 100) + '%';
+}
+
+if (navigator.connection) {
+  sysNet.textContent = navigator.connection.effectiveType.toUpperCase() || 'ONLINE';
+}
+
+if (navigator.getBattery) {
+  navigator.getBattery().then(battery => {
+    function updateBatteryInfo() {
+      const level = Math.round(battery.level * 100);
+      sysBatt.textContent = level + '% ' + (battery.charging ? '(CHG)' : '');
+      battBar.style.width = level + '%';
+      if (level <= 20 && !battery.charging) {
+        battBar.style.background = '#ff0000';
+        battBar.style.boxShadow = '0 0 10px #ff0000';
+      }
+    }
+    updateBatteryInfo();
+    battery.addEventListener('levelchange', updateBatteryInfo);
+    battery.addEventListener('chargingchange', updateBatteryInfo);
+  });
+}
+
+// Generate animated mock data chart for visual effect
+const numBars = 30;
+for (let i = 0; i < numBars; i++) {
+  const bar = document.createElement('div');
+  bar.className = 'chart-bar';
+  bar.style.height = Math.random() * 100 + '%';
+  sysChart.appendChild(bar);
+}
+
+// Animate chart (sliding data to the left)
+setInterval(() => {
+  const bars = sysChart.children;
+  for (let i = 0; i < bars.length; i++) {
+    if (i === bars.length - 1) {
+      bars[i].style.height = Math.random() * 100 + '%';
+    } else {
+      bars[i].style.height = bars[i+1].style.height;
+    }
+  }
+}, 150);
